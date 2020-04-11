@@ -1,9 +1,16 @@
 #!/bin/bash
 
-UPDATE_COUNT=$(checkupdates 2>/dev/null | wc -l)
+case $1 in
+    notify)
+        notify-send -a checkupdates "checkupdates" "$(cat < /tmp/checkupdates | awk '{printf "%30-s %s\n", $1,$4}')";;
+    *)
+        UPDATE_COUNT=$(checkupdates | tee /tmp/checkupdates | wc -l)
 
-[[ ${UPDATE_COUNT} > 0 ]] && {
-    echo " ${UPDATE_COUNT}"
-} || {
-    echo ""
-}
+        if [[ ${UPDATE_COUNT} -gt 0 ]]; then
+            echo " ${UPDATE_COUNT}"
+        else
+            echo ""
+        fi
+        ;;
+esac
+
