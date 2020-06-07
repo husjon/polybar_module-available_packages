@@ -1,10 +1,29 @@
 #!/bin/bash
 
+TIMEOUT=${1:-5}
+(( TIMEOUT < 5 )) && TIMEOUT=5
+
+UPDATES_FILE=/tmp/checkupdates
+
+check() {
+    find \
+        ${UPDATES_FILE} \
+        -mmin -${TIMEOUT} \
+        -and \
+        -size +10c \
+        2> /dev/null | grep -q . && return
+
+    checkupdates > "${UPDATES_FILE}"
+}
+
 case $1 in
     notify)
-        notify-send -a checkupdates "checkupdates" "$(cat < /tmp/checkupdates | awk '{printf "%30-s %s\n", $1,$4}')";;
+        #notify-send -a checkupdates "checkupdates" "$(cat < /tmp/checkupdates | awk '{printf "%30-s %s\n", $1,$4}')";;
+        awk '{printf "%50-s %s\n", $1,$4}' "$UPDATES_FILE{}" | rofi -lines 20 -dmenu -p "Package"
+        ;;
     *)
-        UPDATE_COUNT=$(checkupdates | tee /tmp/checkupdates | wc -l)
+        check
+        UPDATE_COUNT=$(cat "${UPDATES_FILE}" | wc -l)
 
         if [[ ${UPDATE_COUNT} -gt 0 ]]; then
             echo " ${UPDATE_COUNT}"
@@ -13,4 +32,3 @@ case $1 in
         fi
         ;;
 esac
-
