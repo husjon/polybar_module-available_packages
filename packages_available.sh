@@ -1,7 +1,7 @@
 #!/bin/bash
 
-TIMEOUT=${1:-5}
-(( TIMEOUT < 5 )) && TIMEOUT=5
+TIMEOUT=${1:-60}
+(( TIMEOUT < 60 )) && TIMEOUT=60
 
 UPDATES_FILE=/tmp/checkupdates
 
@@ -13,6 +13,7 @@ check() {
         -size +10c \
         2> /dev/null | grep -q . && return
 
+    echo " Checking"
     checkupdates > "${UPDATES_FILE}"
 }
 
