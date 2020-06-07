@@ -20,7 +20,7 @@ check() {
 case $1 in
     notify)
         #notify-send -a checkupdates "checkupdates" "$(cat < /tmp/checkupdates | awk '{printf "%30-s %s\n", $1,$4}')";;
-        awk '{printf "%50-s %s\n", $1,$4}' "$UPDATES_FILE{}" | rofi -lines 20 -dmenu -p "Package"
+        awk '{printf "%50-s %s\n", $1,$4}' "${UPDATES_FILE}" | rofi -lines 20 -dmenu -p "Package"
         ;;
     *)
         check
