@@ -9,8 +9,6 @@ check() {
     find \
         ${UPDATES_FILE} \
         -mmin -${TIMEOUT} \
-        -and \
-        -size +10c \
         2> /dev/null | grep -q . && return
 
     echo " Checking"
