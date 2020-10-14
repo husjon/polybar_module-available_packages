@@ -1,0 +1,4 @@
+type = custom/script
+exec = ~/.config/polybar/modules/available_packages/available_packages.sh
+click-left = ~/.config/polybar/modules/available_packages/available_packages.sh notify
+interval = 5
