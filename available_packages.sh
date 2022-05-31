@@ -25,7 +25,7 @@ case $1 in
         UPDATE_COUNT=$(cat "${UPDATES_FILE}" | wc -l)
 
         if [[ ${UPDATE_COUNT} -gt 0 ]]; then
-            echo " ${UPDATE_COUNT}"
+            echo "󰏗 ${UPDATE_COUNT}"  # mdi-package
         else
             echo ""
         fi
